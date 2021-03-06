@@ -1,8 +1,7 @@
 package com.company;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -12,30 +11,60 @@ public class Main {
         Scanner inConsole = new Scanner(System.in);
         System.out.println("Введите: 1 - для ввода с консоли; 2 - для чтения файла");
         int num = inConsole.nextInt();
+        while (!(num == 1 || num == 2))
+        {
+            System.out.println("Ошибка ввода!");
+            System.out.println("Введите: 1 - для ввода с консоли; 2 - для чтения файла");
+            num = inConsole.nextInt();
+        }
         if(num == 1)
         {
             System.out.println("Укажите размерносить матрицы: ");
             size = inConsole.nextInt();
-            System.out.println("Введите коффициенты в консоль:");
-            for(int i = 0; i < size*size+size; i++)
-                arrayList.add(inConsole.nextDouble());
-        }
-        else if(num == 2) {
-            FileInputStream path = new FileInputStream("res/input");
-            DataInputStream inFile = new DataInputStream(path);
-            BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
-            String data;
 
-            while ((data = br.readLine()) != null) {
-                String[] tmp = data.split(" ");    //Split space
-                for (String s : tmp)
-                    arrayList.add(Double.parseDouble(s));
-                size++;
+            if (size == 1)
+                System.out.println("Размерность СЛАУ не может быть равна одному");
+            else if (size == 2) {
+                System.out.println("Формат ввода: 'a11 a12 b1'");
+                System.out.println("Введите коффициенты через пробел:");
+            }
+            else {
+                System.out.println("Формат ввода: 'a11 ... a1" + size + " b1'");
+                System.out.println("Введите коффициенты через пробел:");
+            }
+
+            try {
+                for (int i = 0; i < size * size + size; i++)
+                    arrayList.add(inConsole.nextDouble());
+            }
+            catch (InputMismatchException e)
+            {
+                System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через запятую");
             }
         }
-        System.out.println("Размерность матрицы: ");
-        System.out.println(size);
-        System.out.println();
+        else if(num == 2) {
+            try {
+                FileInputStream path = new FileInputStream("res/input");
+                DataInputStream inFile = new DataInputStream(path);
+                BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
+                String data;
+
+                while ((data = br.readLine()) != null) {
+                    String[] tmp = data.split(" ");    //Split space
+                    for (String s : tmp)
+                        arrayList.add(Double.parseDouble(s));
+                    size++;
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через точку");
+                System.exit(0);
+            }
+            System.out.println("Размерность матрицы: ");
+            System.out.println(size);
+            System.out.println();
+        }
 
         double[][] mtx = new double[size][size+1];
         int index=0;
@@ -87,8 +116,6 @@ public class Main {
                 System.out.println("Система имеет бесконечное множество решений!");
         }
         else System.out.println("Ошибка в подсчете матрицы или система не имеет решений!");
-
-
 
     }
 }
