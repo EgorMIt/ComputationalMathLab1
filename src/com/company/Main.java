@@ -17,53 +17,49 @@ public class Main {
             System.out.println("Введите: 1 - для ввода с консоли; 2 - для чтения файла");
             num = inConsole.nextInt();
         }
-        if(num == 1)
-        {
-            System.out.println("Укажите размерносить матрицы: ");
-            size = inConsole.nextInt();
+        switch (num) {
+            case 1 -> {
+                System.out.println("Укажите размерносить матрицы: ");
+                size = inConsole.nextInt();
 
-            if (size == 1)
-                System.out.println("Размерность СЛАУ не может быть равна одному");
-            else if (size == 2) {
-                System.out.println("Формат ввода: 'a11 a12 b1'");
-                System.out.println("Введите коффициенты через пробел:");
-            }
-            else {
-                System.out.println("Формат ввода: 'a11 ... a1" + size + " b1'");
-                System.out.println("Введите коффициенты через пробел:");
-            }
+                if (size == 1)
+                    System.out.println("Размерность СЛАУ не может быть равна одному");
+                else if (size == 2) {
+                    System.out.println("Формат ввода: 'a11 a12 b1'");
+                    System.out.println("Введите коффициенты через пробел:");
+                } else {
+                    System.out.println("Формат ввода: 'a11 ... a1" + size + " b1'");
+                    System.out.println("Введите коффициенты через пробел:");
+                }
 
-            try {
-                for (int i = 0; i < size * size + size; i++)
-                    arrayList.add(inConsole.nextDouble());
-            }
-            catch (InputMismatchException e)
-            {
-                System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через запятую");
-            }
-        }
-        else if(num == 2) {
-            try {
-                FileInputStream path = new FileInputStream("res/input");
-                DataInputStream inFile = new DataInputStream(path);
-                BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
-                String data;
-
-                while ((data = br.readLine()) != null) {
-                    String[] tmp = data.split(" ");    //Split space
-                    for (String s : tmp)
-                        arrayList.add(Double.parseDouble(s));
-                    size++;
+                try {
+                    for (int i = 0; i < size * size + size; i++)
+                        arrayList.add(inConsole.nextDouble());
+                } catch (InputMismatchException e) {
+                    System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через запятую");
                 }
             }
-            catch (NumberFormatException e)
-            {
-                System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через точку");
-                System.exit(0);
+            case 2 -> {
+                try {
+                    FileInputStream path = new FileInputStream("res/input");
+                    DataInputStream inFile = new DataInputStream(path);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
+                    String data;
+
+                    while ((data = br.readLine()) != null) {
+                        String[] tmp = data.split(" ");    //Split space
+                        for (String s : tmp)
+                            arrayList.add(Double.parseDouble(s));
+                        size++;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Ошибка ввода!  Проверьте, что дробные числа записаны через точку");
+                    System.exit(0);
+                }
+                System.out.println("Размерность матрицы: ");
+                System.out.println(size);
+                System.out.println();
             }
-            System.out.println("Размерность матрицы: ");
-            System.out.println(size);
-            System.out.println();
         }
 
         double[][] mtx = new double[size][size+1];
