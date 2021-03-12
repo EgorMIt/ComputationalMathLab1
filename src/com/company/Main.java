@@ -63,50 +63,40 @@ public class Main {
         }
 
         double[][] mtx = new double[size][size+1];
-        int index=0;
+        double[][] mtxCopy = new double[size][size+1];
+        int index = 0;
         for(int i = 0; i< size; i++)
             for(int j = 0; j <size+1;j++)
             {
-                mtx[i][j] = arrayList.get(index);
+                mtx[i][j] = mtxCopy[i][j] = arrayList.get(index);
                 index++;
             }
 
 
-        /*for(int i = 0; i< size; i++)
-        {
-            for(int j = 0; j <size+1;j++)
-            {
-               System.out.print(mtx[i][j] + " ");
-            }
-            System.out.println();
-        }*/
-
-
-        double[][] triangleMtx = GaussMethod.getTriangleMtx(mtx, size);
+        GaussMethod.printMtx(mtxCopy);
+        GaussMethod.setIndexMass(size);
+        double[][] triangleMtx = GaussMethod.getTriangleNew(mtx);
         if(triangleMtx != null) {
             System.out.println("Получена треугольная матрица: ");
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size + 1; j++) {
-                    System.out.print(triangleMtx[i][j] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
+            GaussMethod.printMtx(triangleMtx);
 
             System.out.println("Определитель матрицы равен: ");
-            double det = GaussMethod.getDeterminant(triangleMtx, size);
+            double det = GaussMethod.getDeterminant(triangleMtx);
             System.out.println(det);
             System.out.println();
 
             if (det != 0) {
-                double[] x = GaussMethod.getRoots(triangleMtx, size);
+                double[] x = GaussMethod.getRootsNew(triangleMtx);
                 System.out.println("Найдены корни СЛАУ:");
-                for (double v : x) System.out.println(v + " ");
+                for (double v : x) System.out.printf("%.2f\t", v);
+                System.out.println();
                 System.out.println();
 
                 System.out.println("Вектор невязки: ");
-                double[] dis = GaussMethod.getDiscrepancy(mtx, x);
-                for (double di : dis) System.out.println(di + " ");
+                double[] dis = GaussMethod.getDiscrepancyNew(mtxCopy, x);
+                for (double di : dis) System.out.printf("%.2f\t", di);
+                System.out.println();
+
             }
             else
                 System.out.println("Система имеет бесконечное множество решений!");
