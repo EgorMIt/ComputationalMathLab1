@@ -127,7 +127,7 @@ public class GaussMethod { //Решение уравнений методом Г
                     matrix[k][j] = matrix[k][j] - matrix[k][i] * matrix[i][j];
 
 
-            System.out.println("Мтрица после " + (i+1) + "го преобразования:");
+            System.out.println("Матрица после " + (i+1) + "го преобразования:");
             printMtx(matrix);
             System.out.println("-------");
 
